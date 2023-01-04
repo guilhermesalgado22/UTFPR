@@ -1,6 +1,7 @@
 import 'dart:ui';
 
-import 'package:first_project/satelite.dart';
+import 'package:first_project/map.page.dart';
+import 'package:first_project/map.page.dart';
 import 'package:flutter/material.dart'
     show
         AppBar,
@@ -125,7 +126,7 @@ class Area extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Satelite()),
+                      MaterialPageRoute(builder: (context) => MapPage()),
                     );
                   }),
             )
