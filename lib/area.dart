@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:first_project/map.page.dart';
 import 'package:first_project/map.page.dart';
 import 'package:flutter/material.dart'
     show
