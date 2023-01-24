@@ -1,39 +1,5 @@
-import 'package:first_project/area.dart' show Area;
-import 'package:flutter/material.dart'
-    show
-        AppBar,
-        AssetImage,
-        Axis,
-        BorderRadius,
-        BoxDecoration,
-        BuildContext,
-        CircleAvatar,
-        Color,
-        Colors,
-        Column,
-        Container,
-        EdgeInsets,
-        FontWeight,
-        Icon,
-        Icons,
-        InkWell,
-        InputBorder,
-        InputDecoration,
-        ListView,
-        MainAxisAlignment,
-        MaterialPageRoute,
-        MediaQuery,
-        Navigator,
-        NetworkImage,
-        Padding,
-        Row,
-        SafeArea,
-        Scaffold,
-        StatelessWidget,
-        Text,
-        TextField,
-        TextStyle,
-        Widget;
+import 'package:first_project/area.dart';
+import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -101,10 +67,10 @@ class Home extends StatelessWidget {
                           ),
                           // ignore: prefer_const_constructors
                           prefixIcon: Padding(
-                            padding: EdgeInsets.only(left: 15, right: 15),
+                            padding: const EdgeInsets.only(left: 15, right: 15),
                             // ignore: prefer_const_constructors
                             child: CircleAvatar(
-                              child: Icon(Icons.search),
+                              child: const Icon(Icons.search),
                             ),
                           ),
                           hintText: "Pesquisar",
@@ -114,10 +80,10 @@ class Home extends StatelessWidget {
                 ),
                 //Circulos de opções
                 Padding(
-                  padding: EdgeInsets.only(top: 50),
+                  padding: const EdgeInsets.only(top: 50),
                   child: Row(
                     children: <Widget>[
-                      Container(
+                      SizedBox(
                         height: 100,
                         width: MediaQuery.of(context).size.width - 80,
                         child: ListView.builder(
@@ -126,7 +92,8 @@ class Home extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             // ignore: prefer_const_constructors
                             return Padding(
-                                padding: EdgeInsets.only(left: 15, top: 15),
+                                padding:
+                                    const EdgeInsets.only(left: 15, top: 15),
                                 // ignore: prefer_const_constructors
                                 child: CircleAvatar(
                                   radius: 43,
