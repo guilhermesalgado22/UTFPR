@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:first_project/map.page.dart';
+import 'package:first_project/map_page.dart';
 import 'package:flutter/material.dart'
     show
         AppBar,
@@ -109,7 +109,7 @@ class Area extends StatelessWidget {
               padding: const EdgeInsets.all(0),
               child: TextButton(
                   style: TextButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 20, 160, 2),
+                      backgroundColor: const Color.fromARGB(255, 20, 160, 2),
                       elevation: 15,
                       shadowColor: Colors.green),
                   // ignore: prefer_const_constructors
@@ -124,7 +124,7 @@ class Area extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MapPage()),
+                      MaterialPageRoute(builder: (context) => const MapPage()),
                     );
                   }),
             )
