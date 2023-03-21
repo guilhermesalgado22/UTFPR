@@ -4,19 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-//class HomeController extends ChangeNotifier{
-//final Map <PolylineId, Polyline> _polylines ={};
-//final Map<PolygonId, Polygon> _polygons ={}
-
-//Set<Polyline> get polylines => _polylines.values.toSet();
-//Set<Polygon> get polygons => _polygons.values.toSet();
-
-//String _polylineId ='0';
-
-//}
-
-//}
-
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
@@ -28,6 +15,7 @@ class MapPageState extends State<MapPage> {
   final Completer<GoogleMapController> _controller = Completer();
   final List<Polygon> listOfPoly = [];
   final List<LatLng> listOfLatLng = [];
+  final List<Marker> listOfMarkers = [];
   bool isReadyToDraw = false;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
@@ -50,6 +38,27 @@ class MapPageState extends State<MapPage> {
         fillColor: Colors.yellow.withOpacity(0.15),
       ),
     );
+    _setMarkers();
+    setState(() {});
+  }
+
+  _setMarkers() {
+    listOfMarkers.clear();
+    for (int i = 0; i < listOfLatLng.length; i++) {
+      listOfMarkers.add(
+        Marker(
+          markerId: MarkerId('marker_$i'),
+          position: listOfLatLng[i],
+          draggable: true,
+          onDragEnd: (LatLng position) {
+            setState(() {
+              listOfLatLng[i] = position;
+              _setPoly();
+            });
+          },
+        ),
+      );
+    }
     setState(() {});
   }
 
@@ -63,6 +72,7 @@ class MapPageState extends State<MapPage> {
         child: GoogleMap(
           mapType: MapType.hybrid,
           initialCameraPosition: _kGooglePlex,
+          markers: listOfMarkers.toSet(),
           polygons: listOfPoly.toSet(),
           zoomControlsEnabled: false,
           onMapCreated: (GoogleMapController controller) {
@@ -73,6 +83,7 @@ class MapPageState extends State<MapPage> {
 
             listOfLatLng.add(latLng);
             _setPoly();
+            _setMarkers();
           },
         ),
       ),
@@ -93,6 +104,7 @@ class MapPageState extends State<MapPage> {
               listOfLatLng.removeLast();
               listOfPoly.removeLast();
               _setPoly();
+              _setMarkers();
               setState(() {});
             },
           ),
