@@ -1,6 +1,7 @@
 import 'package:first_project/Home.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'package:first_project/DatabaseHelper.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class Cadastro extends StatefulWidget {
 
 class _CadastroState extends State<Cadastro> {
   final _formKey = GlobalKey<FormState>();
-
+  final dbHelper = DatabaseHelper();
   String? _nomeCompleto;
   String? _email;
   String? _senha;
@@ -167,11 +168,34 @@ class _CadastroState extends State<Cadastro> {
                       SizedBox(height: 20),
                       Center(
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              // fazer o que for necessário com as informações do formulário
-                              // por exemplo, salvar no banco de dados
+
+                              // Criar um novo usuário
+                              Map<String, dynamic> newUser = {
+                                'nome': _nomeCompleto,
+                                'email': _email,
+                                'senha': _senha,
+                                'celular': _celular,
+                              };
+                              await dbHelper.saveUser(newUser);
+
+                              // Consultar o usuário inserido
+                              Map<String, dynamic>? insertedUser =
+                                  await dbHelper.getUserByEmail(_email!);
+                              if (insertedUser != null) {
+                                print("Usuário inserido com sucesso:");
+                                print(insertedUser);
+                              } else {
+                                print("Erro ao inserir usuário");
+                              }
+
+                              // Navegar para a tela inicial
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => Home()),
+                              );
                             }
                           },
                           child: Text('Concluir'),

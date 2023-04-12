@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'cadastro.dart';
 import 'home.dart';
 import 'recuperacaodesenha.dart';
+import 'package:first_project/DatabaseHelper.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,12 +30,12 @@ class _LoginScreenState extends State<LoginScreen> {
   String _password = '';
   String _status = '';
 
-  void _signIn(String username, String password) {
-    // Substitua estas credenciais pelas credenciais reais do usuário (ex.: consultando um banco de dados ou fazendo uma chamada de API)
-    const validUsername = 'usuario';
-    const validPassword = 'senha';
+  void _signIn(String username, String password) async {
+    final dbHelper = DatabaseHelper();
 
-    if (username == validUsername && password == validPassword) {
+    Map<String, dynamic>? user = await dbHelper.getUserByEmail(username);
+
+    if (user != null && user['senha'] == password) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Home()),
@@ -52,10 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            // Adicione a imagem de fundo como primeiro elemento do Stack
             Container(
               height: MediaQuery.of(context).size.height,
-              // ignore: prefer_const_constructors
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/milho.jpg'),
@@ -63,7 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            // Inclua o conteúdo do formulário como segundo elemento do Stack
             Container(
               padding: EdgeInsets.only(top: 130, left: 40, right: 40),
               child: Form(
@@ -72,22 +70,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     TextFormField(
-                      textAlign:
-                          TextAlign.center, // Alinha o texto digitado no centro
+                      textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: 'Login',
-                        hintStyle: TextStyle(
-                          color: Colors.black, // Escolha a cor que desejar
-                        ),
-                        filled: true, // Habilita o preenchimento do campo
-                        fillColor: Colors
-                            .white, // Define a cor de preenchimento como branco
+                        hintStyle: TextStyle(color: Colors.black),
+                        filled: true,
+                        fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none, // Cantos arredondados
+                          borderSide: BorderSide.none,
                         ),
                       ),
-
                       onChanged: (value) {
                         setState(() {
                           _username = value;
@@ -103,21 +96,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 16.0),
                     TextFormField(
                       textAlign: TextAlign.center,
-                      // ignore: prefer_const_constructors
                       decoration: InputDecoration(
                         hintText: 'Senha',
-                        hintStyle: TextStyle(
-                          color: Colors.black, // Escolha a cor que desejar
-                        ),
-                        filled: true, // Habilita o preenchimento do campo
-                        fillColor: Colors
-                            .white, // Define a cor de preenchimento como branco
+                        hintStyle: TextStyle(color: Colors.black),
+                        filled: true,
+                        fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none, // Cantos arredondados
+                          borderSide: BorderSide.none,
                         ),
                       ),
-
+                      obscureText: true,
                       onChanged: (value) {
                         setState(() {
                           _password = value;
@@ -127,6 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (value == null || value.isEmpty) {
                           return 'Por favor, insira sua senha';
                         }
+                        return null;
                         return null;
                       },
                     ),
@@ -169,7 +159,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 'Esqueci minha senha',
                                 style: TextStyle(
                                   color: Colors.yellow,
-                                  // outros campos de estilo
                                 ),
                               ),
                             ),
@@ -185,7 +174,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 'Não Tenho Cadastro',
                                 style: TextStyle(
                                   color: Colors.yellow,
-                                  // outros campos de estilo
                                 ),
                               ),
                             ),
@@ -203,7 +191,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text('Entrar'),
                     ),
                     const SizedBox(height: 16.0),
-                    Text(_status),
+                    Text(
+                      _status,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
                   ],
                 ),
               ),

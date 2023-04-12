@@ -1,4 +1,5 @@
 import 'package:first_project/area.dart';
+import 'package:first_project/propriedadeScreen.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -104,7 +105,7 @@ class Home extends StatelessWidget {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (BuildContext context) =>
-                                                Area()));
+                                                PropriedadesScreen()));
                                   }
                                       // onPressed (){
                                       // Navigator.push(
